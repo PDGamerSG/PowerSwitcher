@@ -1,6 +1,7 @@
 ﻿using Petrroll.Helpers;
 using PowerSwitcher.TrayApp.Configuration;
 using PowerSwitcher.TrayApp.Resources;
+using PowerSwitcher.TrayApp.Services;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -79,6 +80,10 @@ namespace PowerSwitcher.TrayApp
             enableShortcutsToggleItem.Checked = configuration.Data.ShowOnShortcutSwitch;
             enableShortcutsToggleItem.Click += EnableShortcutsToggleItem_Click;
 
+            var runOnStartupItem = contextMenuSettings.MenuItems.Add(AppStrings.RunOnStartup);
+            runOnStartupItem.Checked = StartupRegistryService.IsEnabled();
+            runOnStartupItem.Click += RunOnStartupItem_Click;
+
             var aboutItem = contextMenuRootItems.Add($"{AppStrings.About} ({Assembly.GetEntryAssembly().GetName().Version})");
             aboutItem.Click += About_Click;
 
@@ -100,6 +105,14 @@ namespace PowerSwitcher.TrayApp
         #endregion
 
         #region SettingsTogglesRegion
+        private void RunOnStartupItem_Click(object sender, EventArgs e)
+        {
+            WF.MenuItem runOnStartupItem = (WF.MenuItem)sender;
+
+            StartupRegistryService.SetEnabled(!StartupRegistryService.IsEnabled());
+            runOnStartupItem.Checked = StartupRegistryService.IsEnabled();
+        }
+
         private void EnableShortcutsToggleItem_Click(object sender, EventArgs e)
         {
             WF.MenuItem enableShortcutsToggleItem = (WF.MenuItem)sender;

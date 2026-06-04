@@ -133,6 +133,15 @@ namespace PowerSwitcher.TrayApp.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Run at Windows startup.
+        /// </summary>
+        internal static string RunOnStartup {
+            get {
+                return ResourceManager.GetString("RunOnStartup", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to Schema to switch to off AC.
         /// </summary>
         internal static string SchemaToSwitchOffAc {
